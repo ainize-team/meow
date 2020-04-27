@@ -19,6 +19,7 @@ const MeowText = styled.text`
 const Image = styled.img`
     width: 100%;
     margin-bottom: 16px;
+    max-width: 500px;
 `;
 
 const AnswerButton = styled.button`
