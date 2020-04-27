@@ -1,8 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
+import Spinner from '../ui/Spinner';
 
 const Wrapper = styled.div`
     display: flex;
+    align-items: center;
     flex-direction: column;
 `;
 
@@ -46,6 +48,7 @@ class AppPage extends React.Component {
 
         this.state = {
             url: null,
+            isFetching: true,
         };
     }
 
@@ -56,15 +59,16 @@ class AppPage extends React.Component {
     fetchCat = () => {
         fetch('https://aws.random.cat/meow')
         .then(response => response.json())
-        .then(data => this.setState({ url: data.file }));
+        .then(data => this.setState({ url: data.file, isFetching: false }));
     }
 
     onButtonClick = () => {
+        this.setState({ isFetching: true });
         this.fetchCat();
     }
 
     render() {
-        const { url } = this.state;
+        const { url, isFetching } = this.state;
 
         return (
             <Wrapper>
@@ -72,7 +76,8 @@ class AppPage extends React.Component {
                     {"Meow"}
                 </MeowText>
 
-                <Image src={`${url}`} />
+                {isFetching ? <Spinner showDefault />
+                            : <Image src={`${url}`} />}
 
                 <AnswerButton key={`MeowBtn`}
                               onClick={() => this.onButtonClick()}>
